@@ -1,0 +1,20 @@
+version: '3.3'
+
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+    - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: react
+      MYSQL_DATABASE: react
+      MYSQL_USER: react
+      MYSQL_PASSWORD: react
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+
+volumes:
+    db_data: {}
