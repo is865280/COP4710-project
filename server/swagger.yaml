@@ -1,0 +1,431 @@
+paths:
+  /user/register:
+    post:
+      tags:
+      - "user"
+      summary: "Create user"
+      description: ""
+      operationId: "createUser"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Created user object"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        default:
+          description: "successful operation"
+  /user/login:
+    post:
+      tags:
+      - "user"
+      summary: "login user"
+      description: ""
+      operationId: "loginUser"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "login info"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        default:
+          description: "successful operation"
+  /user:
+    get:
+      tags:
+      - "user"
+      summary: "get user info"
+      description: "takes the loged in user and gets their info"
+      security:
+        - BearerAuth: []
+      operationId: "getUserInfo"
+      produces:
+      - "application/json"
+      responses:
+        default:
+          description: "successful operation"
+    put:
+      tags:
+      - "user"
+      summary: "Update user"
+      description: "This can only be done by the logged in user."
+      security:
+        - BearerAuth: []
+      operationId: "updateUser"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Updated user object"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        default:
+          description: "successful operation"
+    delete:
+      tags:
+      - "user"
+      summary: "Delete user"
+      description: "This can only be done by the logged in user."
+      security:
+        - BearerAuth: []
+      operationId: "deleteUser"
+      produces:
+      - "application/json"
+      responses:
+        default:
+          description: "successful operation"
+  '/user/username/{username}':
+    get:
+      tags:
+        - user
+      summary: does username exist
+      description: returns true if user exists
+      parameters:
+        - name: username
+          in: path
+          required: true
+          type: string
+      responses:
+        default:
+          description: "successful operation"
+  /university:
+    put:
+      tags:
+      - "university"
+      summary: "create university"
+      description: "adds a university and adds user to super_admin table"
+      security:
+        - BearerAuth: []
+      operationId: "createUniversity"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "University object"
+        required: true
+        schema:
+          $ref: "#/definitions/University"
+      responses:
+        default:
+          description: "successful operation"
+    get:
+      tags:
+      - "university"
+      summary: "get all universities"
+      description: ""
+      security:
+        - BearerAuth: []
+      operationId: "getUniversities"
+      produces:
+      - "application/json"
+      responses:
+        default:
+          description: "successful operation"
+  /university/name/{university}:
+    get:
+      tags:
+      - "university"
+      summary: "get university by name"
+      description: ""
+      security:
+        - BearerAuth: []
+      operationId: "getUniversity"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "university"
+        type: "string"
+        description: "University name"
+        required: true
+      responses:
+        default:
+          description: "successful operation"
+    put:
+      tags:
+      - "university"
+      summary: "update university by name"
+      description: "only alowed if loged in user is the owner"
+      security:
+        - BearerAuth: []
+      operationId: "updateUniversity"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "university"
+        type: "string"
+        description: "University name"
+        required: true
+      - in: "body"
+        name: "body"
+        description: "University object"
+        required: true
+        schema:
+          $ref: "#/definitions/University"
+      responses:
+        default:
+          description: "successful operation"
+    delete:
+      tags:
+      - "university"
+      summary: "delete university by name"
+      description: "only alowed if loged in user is the owner"
+      security:
+        - BearerAuth: []
+      operationId: "deleateUniversity"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "university"
+        type: "string"
+        description: "University name"
+        required: true
+      responses:
+        default:
+          description: "successful operation"
+  /rso:
+    put:
+      tags:
+      - "rso"
+      summary: "create RSO"
+      description: "adds a RSO and adds user to admin table"
+      security:
+        - BearerAuth: []
+      operationId: "createRSO"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "RSO object"
+        required: true
+        schema:
+          $ref: "#/definitions/RSO"
+      responses:
+        default:
+          description: "successful operation"
+    get:
+      tags:
+      - "rso"
+      summary: "get all RSOs"
+      description: ""
+      security:
+        - BearerAuth: []
+      operationId: "getRSOs"
+      produces:
+      - "application/json"
+      responses:
+        default:
+          description: "successful operation"
+  /rso/name/{rso}:
+    get:
+      tags:
+      - "rso"
+      summary: "get RSO by name"
+      description: ""
+      security:
+        - BearerAuth: []
+      operationId: "getRSO"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "rso"
+        type: "string"
+        description: "RSO name"
+        required: true
+      responses:
+        default:
+          description: "successful operation"
+    put:
+      tags:
+      - "rso"
+      summary: "update RSO by name"
+      description: "only allowed if loged in user is the owner"
+      security:
+        - BearerAuth: []
+      operationId: "updateRSO"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "rso"
+        type: "string"
+        description: "RSO name"
+        required: true
+      - in: "body"
+        name: "body"
+        description: "RSO object"
+        required: true
+        schema:
+          $ref: "#/definitions/RSO"
+      responses:
+        default:
+          description: "successful operation"
+    delete:
+      tags:
+      - "rso"
+      summary: "deleat RSO by name"
+      description: "only alowed if logged in user is the owner"
+      security:
+        - BearerAuth: []
+      operationId: "deleateRSO"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "rso"
+        type: "string"
+        description: "RSO name"
+        required: true
+      responses:
+        default:
+          description: "successful operation"
+  /rso/members/{rso}:
+    put:
+      tags:
+      - "rso"
+      summary: "join a rso"
+      description: "add logged in user to member table and increase rso member count by 1"
+      security:
+        - BearerAuth: []
+      operationId: "joinRSO"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "rso"
+        type: "string"
+        description: "RSO name"
+        required: true
+      responses:
+        default:
+          description: "successful operation"
+    get:
+      tags:
+      - "rso"
+      summary: "get all members"
+      description: "returns an array of all members in the given RSO"
+      security:
+        - BearerAuth: []
+      operationId: "membersRSO"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "rso"
+        type: "string"
+        description: "RSO name"
+        required: true
+      responses:
+        default:
+          description: "successful operation"
+    delete:
+      tags:
+      - "rso"
+      summary: "leave a rso"
+      description: "remove logged in user from member table and decrease rso member count by 1"
+      security:
+        - BearerAuth: []
+      operationId: "leaveRSO"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "rso"
+        type: "string"
+        description: "RSO name"
+        required: true
+      responses:
+        default:
+          description: "successful operation"
+  /event:
+    put:
+      tags:
+      - "events"
+      summary: "create an event"
+      description: ""
+      responses:
+        200:
+          description: OK
+    
+securityDefinitions:
+  BearerAuth:
+    type: apiKey
+    in: header
+    name: Authorization
+definitions:
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      username:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+  University:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      location_id:
+        type: "integer"
+        format: "int64"
+      num_students:
+        type: "integer"
+        format: "int32"
+      description:
+        type: "string"
+  RSO:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      description:
+        type: "string"
+      num_students:
+        type: "integer"
+        format: "int32"
+      active: 
+       type: "boolean"
+  event:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      description:
+        type: "string"
+      time:
+        type: "string"
+      date:
+        type: "string"
+      contact_phone:
+        type: "string"
+      contact_email:
+        type: "string"
