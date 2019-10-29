@@ -6,7 +6,6 @@
   "author": "Isaac Lefler <isaaclefler@gmail.com>",
   "license": "MIT",
   "prettier": {
-    "trailingComma": "es5",
     "tabWidth": 2,
     "semi": false,
     "singleQuote": true
