@@ -13,53 +13,55 @@ exports.addNew = (req, res) => {
       res.send({ message: 'user is not an admin' })
     }
 
-    var loc_id = req.body.location_id
+    var loc_id
     if (!loc_id) {
       db.query('INSERT INTO location SET ?', newLocation, (err, resLoc) => {
         if (err) res.send(err)
         loc_id = resLoc.insertId
-        console.log(loc_id)
-        done = true
+        doNext()
       })
+    } else firstDo = async () => {
+      loc_id = req.body.location_id
+      doNext()
     }
-    // TODO: make ⬇︎ await ⬆︎
 
-    var newEvent = {
-      name: req.body.name, location_id: loc_id, time: req.body.time, date: req.body.date,
-      category: req.body.category, description: req.body.description,
-      contact_phone: req.body.contact_phone, contact_email: req.body.contact_email
-    }
-    console.log(newEvent.location_id)
-    db.query('INSERT INTO event SET ?', newEvent, (err, resEvent) => {
-      if (err) res.send(err)
-      switch (req.body.category) {
-        case 'rso':
-          var table = 'RSO_event'
-          var newEventInfo = {
-            RSO_id: req.body.rso_id, event_id: resEvent.insertId
-          }
-          break;
-        case 'public':
-          var table = 'public_event'
-          var newEventInfo = {
-            created_by: req.user.id, event_id: resEvent.insertId
-          }
-          break;
-        case 'private':
-          var table = 'private_event'
-          var newEventInfo = {
-            created_by: req.user.id, event_id: resEvent.insertId, university_id: req.body.university_id
-          }
-          break;
-        default:
-          break;
+    var doNext = () => {
+      var newEvent = {
+        name: req.body.name, location_id: loc_id, time: req.body.time, date: req.body.date,
+        category: req.body.category, description: req.body.description,
+        contact_phone: req.body.contact_phone, contact_email: req.body.contact_email
       }
-      if (!table) res.send({ message: 'Please specify event catagory' })
-      db.query('INSERT INTO ?? SET ?', [table, newEventInfo], (err, resEI) => {
+      db.query('INSERT INTO event SET ?', newEvent, (err, resEvent) => {
         if (err) res.send(err)
-        res.send(resEI)
+        switch (req.body.category) {
+          case 'rso':
+            var table = 'RSO_event'
+            var newEventInfo = {
+              RSO_id: req.body.rso_id, event_id: resEvent.insertId
+            }
+            break;
+          case 'public':
+            var table = 'public_event'
+            var newEventInfo = {
+              created_by: req.user.id, event_id: resEvent.insertId
+            }
+            break;
+          case 'private':
+            var table = 'private_event'
+            var newEventInfo = {
+              created_by: req.user.id, event_id: resEvent.insertId, university_id: req.body.university_id
+            }
+            break;
+          default:
+            break;
+        }
+        if (!table) res.send({ message: 'Please specify event catagory' })
+        db.query('INSERT INTO ?? SET ?', [table, newEventInfo], (err, resEI) => {
+          if (err) res.send(err)
+          res.send(resEI)
+        })
       })
-    })
+    }
   })
 }
 
