@@ -1,13 +1,13 @@
 CREATE TABLE `users` (
-  `id` int PRIMARY KEY,
-  `username` varchar(255),
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `username` varchar(255) UNIQUE,
   `email` varchar(255),
   `university_id` int,
   `hash_password` varchar(255)
 );
 
 CREATE TABLE `university` (
-  `id` int PRIMARY KEY,
+  `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255),
   `location_id` int,
   `description` text,
@@ -16,19 +16,19 @@ CREATE TABLE `university` (
 );
 
 CREATE TABLE `admin` (
-  `id` int PRIMARY KEY,
+  `id` int PRIMARY KEY AUTO_INCREMENT,
   `user_id` int,
   `RSO_id` int
 );
 
 CREATE TABLE `super_admin` (
-  `id` int PRIMARY KEY,
+  `id` int PRIMARY KEY AUTO_INCREMENT,
   `user_id` int,
   `university_id` int
 );
 
 CREATE TABLE `RSO` (
-  `id` int PRIMARY KEY,
+  `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255),
   `description` text,
   `num_members` int,
@@ -36,7 +36,8 @@ CREATE TABLE `RSO` (
 );
 
 CREATE TABLE `event` (
-  `id` int PRIMARY KEY,
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `name` varchar(255),
   `location_id` int,
   `time` time,
   `date` date,
@@ -47,14 +48,14 @@ CREATE TABLE `event` (
 );
 
 CREATE TABLE `public_event` (
-  `id` int PRIMARY KEY,
+  `id` int PRIMARY KEY AUTO_INCREMENT,
   `created_by` int,
   `approved_by` int,
   `event_id` int
 );
 
 CREATE TABLE `private_event` (
-  `id` int PRIMARY KEY,
+  `id` int PRIMARY KEY AUTO_INCREMENT,
   `created_by` int,
   `approved_by` int,
   `university_id` int,
@@ -62,13 +63,13 @@ CREATE TABLE `private_event` (
 );
 
 CREATE TABLE `RSO_event` (
-  `id` int PRIMARY KEY,
+  `id` int PRIMARY KEY AUTO_INCREMENT,
   `RSO_id` int,
   `event_id` int
 );
 
 CREATE TABLE `comments` (
-  `id` int PRIMARY KEY,
+  `id` int PRIMARY KEY AUTO_INCREMENT,
   `event_id` int,
   `created_by` int,
   `rating` int,
@@ -76,13 +77,13 @@ CREATE TABLE `comments` (
 );
 
 CREATE TABLE `members` (
-  `id` int PRIMARY KEY,
+  `id` int PRIMARY KEY AUTO_INCREMENT,
   `user_id` int,
   `RSO_id` int
 );
 
 CREATE TABLE `location` (
-  `id` int PRIMARY KEY,
+  `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255),
   `address` text,
   `latitude` float,
@@ -128,3 +129,25 @@ ALTER TABLE `comments` ADD FOREIGN KEY (`created_by`) REFERENCES `users` (`id`);
 ALTER TABLE `members` ADD FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 ALTER TABLE `members` ADD FOREIGN KEY (`RSO_id`) REFERENCES `RSO` (`id`);
+
+ALTER TABLE `members` ADD UNIQUE KEY (`user_id`, `RSO_id`)
+ALTER TABLE `event` ADD UNIQUE KEY (`location_id`, `time`)
+
+CREATE TRIGGER joinRSO BEFORE INSERT ON members 
+FOR EACH ROW 
+UPDATE RSO SET num_members = num_members + 1 WHERE id = NEW.RSO_id
+
+CREATE TRIGGER leaveRSO BEFORE DELETE ON members 
+FOR EACH ROW 
+UPDATE RSO SET num_members = num_members - 1 WHERE id = OLD.RSO_id
+
+delimiter |
+
+CREATE TRIGGER isActive AFTER INSERT ON members
+  FOR EACH ROW
+  BEGIN
+    UPDATE RSO SET active = IF(active > 4,true,false) WHERE id = NEW.RSO_id;
+  END;
+|
+
+delimiter ;

@@ -1,0 +1,6 @@
+exports.user = require('./user')
+exports.university = require('./university')
+exports.location = require('./location')
+exports.rso = require('./rso')
+exports.event = require('./event')
+exports.comments = require('./comments')
