@@ -2,14 +2,13 @@ var bcrypt = require('bcrypt')
 var jwt = require('jsonwebtoken')
 const db = require('../../../api/services/dbConnectionService')
 
+
 exports.register = (req, res) => {
   var hash_password = bcrypt.hashSync(req.body.password, 10)
 
   var newUser = {
-    username: req.body.username,
-    email: req.body.email,
-    university_id: req.body.university_id,
-    hash_password: hash_password
+    username: req.body.username, email: req.body.email,
+    university_id: req.body.university_id, hash_password: hash_password
   }
   db.query('INSERT INTO users SET ?', newUser, (err, back) => {
     if (err) res.send(err)
@@ -28,7 +27,7 @@ exports.login = (req, res) => {
     } else {
       return res.json({ token: jwt.sign({ username: user[0].username, id: user[0].id }, 'knapsack') })
     }
-  )
+  })
 }
 
 exports.loginRequired = (req, res, next) => {
@@ -38,3 +37,5 @@ exports.loginRequired = (req, res, next) => {
     return res.status(401).json({ message: 'Unauthorized user!' })
   }
 }
+
+

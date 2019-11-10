@@ -1,33 +1,29 @@
 const db = require('../../../api/services/dbConnectionService')
 
-exports.addNew = (req, res) => {
-  var newLocation = {
-    name: req.body.location.name,
-    address: req.body.location.address,
-    latitude: req.body.location.latitude,
-    longitude: req.body.location.longitude
-  }
-  db.query(
-    'SELECT * FROM admin WHERE user_id = ?',
-    [req.user.id, req.body.rso_id],
-    (err, resAdmin) => {
-      if (err) res.send(err)
-      if (!resAdmin[0]) {
-        res.send({ message: 'user is not an admin' })
-      }
 
-      var loc_id
-      if (!loc_id) {
-        db.query('INSERT INTO location SET ?', newLocation, (err, resLoc) => {
-          if (err) res.send(err)
-          loc_id = resLoc.insertId
-          doNext()
-        })
-      } else
-        firstDo = async () => {
-          loc_id = req.body.location_id
-          doNext()
-        }
+exports.addNew = (req, res) => {
+
+  var newLocation = {
+    name: req.body.location.name, address: req.body.location.address,
+    latitude: req.body.location.latitude, longitude: req.body.location.longitude
+  }
+  db.query('SELECT * FROM admin WHERE user_id = ?', [req.user.id, req.body.rso_id], (err, resAdmin) => {
+    if (err) res.send(err)
+    if (!resAdmin[0]) {
+      res.send({ message: 'user is not an admin' })
+    }
+
+    var loc_id
+    if (!loc_id) {
+      db.query('INSERT INTO location SET ?', newLocation, (err, resLoc) => {
+        if (err) res.send(err)
+        loc_id = resLoc.insertId
+        doNext()
+      })
+    } else firstDo = async () => {
+      loc_id = req.body.location_id
+      doNext()
+    }
 
     var doNext = () => {
       var newEvent = {
@@ -64,45 +60,11 @@ exports.addNew = (req, res) => {
         if (!table) res.send({ message: 'Please specify event catagory' })
         db.query('INSERT INTO ?? SET ?', [table, newEventInfo], (err, resEI) => {
           if (err) res.send(err)
-          switch (req.body.category) {
-            case 'rso':
-              var table = 'RSO_event'
-              var newEventInfo = {
-                RSO_id: req.body.rso_id,
-                event_id: resEvent.insertId
-              }
-              break
-            case 'public':
-              var table = 'public_event'
-              var newEventInfo = {
-                created_by: req.user.id,
-                event_id: resEvent.insertId
-              }
-              break
-            case 'private':
-              var table = 'private_event'
-              var newEventInfo = {
-                created_by: req.user.id,
-                event_id: resEvent.insertId,
-                university_id: req.body.university_id
-              }
-              break
-            default:
-              break
-          }
-          if (!table) res.send({ message: 'Please specify event catagory' })
-          db.query(
-            'INSERT INTO ?? SET ?',
-            [table, newEventInfo],
-            (err, resEI) => {
-              if (err) res.send(err)
-              res.send(resEI)
-            }
-          )
+          res.send(resEI)
         })
-      }
+      })
     }
-  )
+  })
 }
 var getAdminId = (user_id) => {
   db.query('SELECT id FROM admin WHERE user_id = ?', user_id, (err, resAdmin) => {
@@ -119,7 +81,7 @@ exports.approvePublic = (req, res) => {
         res.send(resApp)
       })
     }
-  )
+  })
 }
 
 exports.approvePrivate = (req, res) => {
