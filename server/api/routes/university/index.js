@@ -7,6 +7,9 @@ module.exports = () => {
     .route('/')
     .get(controller.university.getAll)
     .post(loginRequired, controller.university.addNew)
+  router
+    .route('/join')
+    .patch(controller.university.join)
 
   return router
 }

@@ -38,3 +38,10 @@ exports.getAll = (req, res) => {
     res.send(back)
   })
 }
+
+exports.join = (req, res) => {
+  db.query('UPDATE users SET university_id = ? WHERE id = ? AND university_id IS NULL', [req.body.university_id, req.user.id], (err, back) => {
+    if (err) res.send(err)
+    res.send(back)
+  })
+} 

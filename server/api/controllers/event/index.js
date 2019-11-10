@@ -134,37 +134,19 @@ exports.approvePrivate = (req, res) => {
 }
 
 exports.getEventFeed = (req, res) => {
-  db.query(
-    'SELECT university_id FROM users WHERE id = ?',
-    req.user.id,
-    (err, resUni) => {
-      if (err) res.send(err)
-      db.query(
-        'SELECT event_id FROM private_event WHERE university_id = ? AND approved_by IS NOT NULL',
-        resUni[0].university_id,
-        (err, resPriEvents) => {
-          if (err) res.send(err)
-          // console.log(resPriEvents)
-        }
+  db.query('SELECT university_id FROM users WHERE id = ?', req.user.id, (err, resUniID) => {
+    if (err) res.send(err)
+
+    db.query(`SELECT * FROM event WHERE id IN (
+      SELECT event_id FROM RSO_event WHERE RSO_id IN (
+        SELECT RSO_id FROM members WHERE user_id = ?
       )
-    }
-  )
-
-  db.query(
-    `SELECT event_id FROM RSO_event WHERE RSO_id IN (
-    SELECT RSO_id FROM members WHERE user_id = ?)`,
-    req.user.id,
-    (err, resRSOEvents) => {
+      UNION ALL 
+      SELECT event_id FROM private_event WHERE university_id = ? AND approved_by IS NOT NULL
+      UNION ALL 
+      SELECT event_id FROM public_event WHERE approved_by IS NOT NULL);`, [req.user.id, resUniID[0].university_id], (err, resEvents) => {
       if (err) res.send(err)
-      console.log(resRSOEvents)
-    }
-  )
-
-  db.query(
-    'SELECT event_id FROM public_event WHERE approved_by IS NOT NULL',
-    (err, resPubEvent) => {
-      if (err) res.send(err)
-      // console.log(resPubEvent)
-    }
-  )
+      res.send(resEvents)
+    })
+  })
 }
