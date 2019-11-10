@@ -1,26 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import AppBar from '@material-ui/core/AppBar'
-import Avatar from '@material-ui/core/Avatar'
-import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
-import HelpIcon from '@material-ui/icons/Help'
 import Hidden from '@material-ui/core/Hidden'
 import IconButton from '@material-ui/core/IconButton'
 import Link from '@material-ui/core/Link'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import MenuIcon from '@material-ui/icons/Menu'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import PersonIcon from '@material-ui/icons/Person'
 import Popover from '@material-ui/core/Popover'
-import Tab from '@material-ui/core/Tab'
-import Tabs from '@material-ui/core/Tabs'
 import Toolbar from '@material-ui/core/Toolbar'
 import Tooltip from '@material-ui/core/Tooltip'
-import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 
 const lightColor = 'rgba(255, 255, 255, 0.7)'
@@ -107,7 +100,7 @@ function Header(props) {
               >
                 <List component="log">
                   <ListItem button>
-                    <ListItemText primary="Log In" />
+                    <ListItemText primary={<Link href="/login">Log In</Link>} />
                   </ListItem>
                   <ListItem button>
                     <ListItemText primary="Sign Up" />
@@ -118,30 +111,6 @@ function Header(props) {
           </Grid>
         </Toolbar>
       </AppBar>
-      <AppBar
-        component="div"
-        className={classes.secondaryBar}
-        color="primary"
-        position="static"
-        elevation={0}
-      >
-        <Toolbar>
-          <Grid container alignItems="center" spacing={1}>
-            <Grid item xs>
-              <Typography color="inherit" variant="h5" component="h1">
-                Search
-              </Typography>
-            </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
-      <AppBar
-        component="div"
-        className={classes.secondaryBar}
-        color="primary"
-        position="static"
-        elevation={0}
-      ></AppBar>
     </React.Fragment>
   )
 }
