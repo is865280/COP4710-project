@@ -100,10 +100,12 @@ function Header(props) {
               >
                 <List component="log">
                   <ListItem button>
-                    <ListItemText primary={<Link href="/login">Log In</Link>} />
+                    <ListItemText primary={<Link href="/login">Login</Link>} />
                   </ListItem>
                   <ListItem button>
-                    <ListItemText primary="Sign Up" />
+                    <ListItemText
+                      primary={<Link href="/register">Register</Link>}
+                    />
                   </ListItem>
                 </List>
               </Popover>
