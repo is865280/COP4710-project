@@ -29,18 +29,40 @@ exports.addNew = (req, res) => {
           doNext()
         }
 
-      var doNext = () => {
-        var newEvent = {
-          name: req.body.name,
-          location_id: loc_id,
-          time: req.body.time,
-          date: req.body.date,
-          category: req.body.category,
-          description: req.body.description,
-          contact_phone: req.body.contact_phone,
-          contact_email: req.body.contact_email
+    var doNext = () => {
+      var newEvent = {
+        name: req.body.name, location_id: loc_id, time: req.body.time, date: req.body.date,
+        category: req.body.category, description: req.body.description,
+        contact_phone: req.body.contact_phone, contact_email: req.body.contact_email
+      }
+      db.query('INSERT INTO event SET ?', newEvent, (err, resEvent) => {
+        if (err) res.send(err)
+
+        switch (req.body.category) {
+          case 'rso':
+            var table = 'RSO_event'
+            var newEventInfo = {
+              RSO_id: req.body.rso_id, event_id: resEvent.insertId
+            }
+            break;
+          case 'public':
+            var table = 'public_event'
+            var newEventInfo = {
+              created_by: resAdmin[0].id, event_id: resEvent.insertId
+            }
+            break;
+          case 'private':
+            var table = 'private_event'
+            var newEventInfo = {
+              created_by: resAdmin[0].id, event_id: resEvent.insertId, university_id: req.body.university_id
+            }
+            break;
+          default:
+            break;
         }
-        db.query('INSERT INTO event SET ?', newEvent, (err, resEvent) => {
+
+        if (!table) res.send({ message: 'Please specify event catagory' })
+        db.query('INSERT INTO ?? SET ?', [table, newEventInfo], (err, resEI) => {
           if (err) res.send(err)
           switch (req.body.category) {
             case 'rso':
@@ -82,43 +104,54 @@ exports.addNew = (req, res) => {
     }
   )
 }
+var getAdminId = (user_id) => {
+  db.query('SELECT id FROM admin WHERE user_id = ?', user_id, (err, resAdmin) => {
+    if (err) res.send(err)
 
+  })
+}
 exports.approvePublic = (req, res) => {
-  db.query(
-    'SELECT * FROM super_admin WHERE user_id = ?',
-    req.user.id,
-    (err, resSA) => {
-      if (err) res.send(err)
-      if (resSA[0]) {
-        db.query(
-          'UPDATE public_event SET approved_by = ? WHERE event_id = ?',
-          [req.user.id, req.body.event_id],
-          (err, resApp) => {
-            if (err) res.send(err)
-            res.send(resApp)
-          }
-        )
-      }
+  db.query('SELECT * FROM super_admin WHERE user_id = ?', req.user.id, (err, resSA) => {
+    if (err) res.send(err)
+    if (resSA[0]) {
+      db.query('UPDATE public_event SET approved_by = ? WHERE event_id = ?', [resSA[0].id, req.body.event_id], (err, resApp) => {
+        if (err) res.send(err)
+        res.send(resApp)
+      })
     }
   )
 }
 
 exports.approvePrivate = (req, res) => {
-  db.query(
-    'SELECT * FROM super_admin WHERE user_id = ?',
-    req.user.id,
-    (err, resSA) => {
-      if (err) res.send(err)
-      if (resSA[0]) {
-        db.query(
-          'UPDATE private_event SET approved_by = ? WHERE event_id = ?',
-          [req.user.id, req.body.event_id],
-          (err, resApp) => {
-            if (err) res.send(err)
-            res.send(resApp)
-          }
-        )
-      }
+  db.query('SELECT * FROM super_admin WHERE user_id = ?', req.user.id, (err, resSA) => {
+    if (err) res.send(err)
+    if (resSA[0]) {
+      db.query('UPDATE private_event SET approved_by = ? WHERE event_id = ?', [resSA[0].id, req.body.event_id], (err, resApp) => {
+        if (err) res.send(err)
+        res.send(resApp)
+      })
     }
-  )
+  })
+}
+
+exports.getEventFeed = (req, res) => {
+  db.query('SELECT university_id FROM users WHERE id = ?', req.user.id, (err, resUni) => {
+    if (err) res.send(err)
+    db.query('SELECT event_id FROM private_event WHERE university_id = ? AND approved_by IS NOT NULL', resUni[0].university_id, (err, resPriEvents) => {
+      if (err) res.send(err)
+      // console.log(resPriEvents)
+    })
+  })
+
+  db.query(`SELECT event_id FROM RSO_event WHERE RSO_id IN (
+    SELECT RSO_id FROM members WHERE user_id = ?)`, req.user.id, (err, resRSOEvents) => {
+    if (err) res.send(err)
+    console.log(resRSOEvents)
+  })
+
+
+  db.query('SELECT event_id FROM public_event WHERE approved_by IS NOT NULL', (err, resPubEvent) => {
+    if (err) res.send(err)
+    // console.log(resPubEvent)
+  })
 }

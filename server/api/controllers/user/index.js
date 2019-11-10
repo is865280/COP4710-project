@@ -19,25 +19,14 @@ exports.register = (req, res) => {
 }
 
 exports.login = (req, res) => {
-  db.query(
-    'SELECT * FROM users WHERE username = ?',
-    req.body.username,
-    (err, user) => {
-      if (err) res.send(err)
-      if (!user) {
-        res.status(401).json({ message: 'Incorect username!' })
-      } else if (
-        !bcrypt.compareSync(req.body.password, user[0].hash_password)
-      ) {
-        res.status(401).json({ message: 'Incorect password' })
-      } else {
-        return res.json({
-          token: jwt.sign(
-            { username: user[0].username, id: user[0].id },
-            'knapsack'
-          )
-        })
-      }
+  db.query('SELECT * FROM users WHERE username = ?', req.body.username, (err, user) => {
+    if (err) res.send(err)
+    if (!user[0]) {
+      res.status(401).json({ message: 'Incorect username!' })
+    } else if (!bcrypt.compareSync(req.body.password, user[0].hash_password)) {
+      res.status(401).json({ message: 'Incorect password' })
+    } else {
+      return res.json({ token: jwt.sign({ username: user[0].username, id: user[0].id }, 'knapsack') })
     }
   )
 }
