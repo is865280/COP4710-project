@@ -13,7 +13,7 @@ app.use(routes())
 // TODO: Remove this.
 // Example: GET localhost/locations will print all rows received from the
 // database to the console.
-app.get('/locations', function (req, res) {
+app.get('/locations', function(req, res) {
   const db = require('./api/services/dbConnectionService')
   db.query('SELECT * FROM location', (error, rows) => {
     if (error) throw error
@@ -23,12 +23,16 @@ app.get('/locations', function (req, res) {
 })
 
 app.get('/test', (req, res) => {
-  db.query('SELECT * FROM admin WHERE user_id = 3 AND RSO_id = ?', [undefined], (err, resTest) => {
-    if (err) send(err)
-    console.log(resTest)
-    if (resTest[0]) console.log(resTest[0])
-    res.send(resTest)
-  })
+  db.query(
+    'SELECT * FROM admin WHERE user_id = 3 AND RSO_id = ?',
+    [undefined],
+    (err, resTest) => {
+      if (err) send(err)
+      console.log(resTest)
+      if (resTest[0]) console.log(resTest[0])
+      res.send(resTest)
+    }
+  )
 })
 
 const PORT = config.port
