@@ -8,10 +8,12 @@ module.exports = () => {
     .get(loginRequired, controller.event.getEventFeed)
     .post(loginRequired, controller.event.addNew)
   router
-    .route('/approve_public')
+    .route('/public')
+    .get(loginRequired, controller.event.getUnapprovePublic)
     .patch(loginRequired, controller.event.approvePublic)
   router
-    .route('/approve_private')
+    .route('/private')
+    .get(loginRequired, controller.event.getUnapprovePrivate)
     .patch(loginRequired, controller.event.approvePrivate)
 
   return router
