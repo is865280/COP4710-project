@@ -14,7 +14,9 @@ import PersonIcon from '@material-ui/icons/Person'
 import Popover from '@material-ui/core/Popover'
 import Toolbar from '@material-ui/core/Toolbar'
 import Tooltip from '@material-ui/core/Tooltip'
+import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
+import JWT from 'jwt-client'
 
 const lightColor = 'rgba(255, 255, 255, 0.7)'
 
@@ -44,14 +46,50 @@ function Header(props) {
   const { classes, onDrawerToggle } = props
   const [isLogedIn, setIsLogedIn] = React.useState(false)
   const [hasAccount, setHasAccount] = React.useState(true)
-
   const [anchorEl, setAnchorEl] = React.useState(null)
+
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
   }
+
   const handleClose = () => {
     setAnchorEl(null)
   }
+
+  const handleLogout = () => {
+    JWT.forget()
+  }
+
+  const renderGreeting = () => {
+    const session = JWT.remember()
+
+    if (session && session.claim && session.claim.username) {
+      const username = session.claim.username
+
+      return (
+        <AppBar
+          component="div"
+          className={classes.secondaryBar}
+          color="primary"
+          position="static"
+          elevation={0}
+        >
+          <Toolbar>
+            <Grid container alignItems="center" spacing={1}>
+              <Grid item xs>
+                <Typography color="inherit" variant="h5" component="h1">
+                  Hello {username}
+                </Typography>
+              </Grid>
+            </Grid>
+          </Toolbar>
+        </AppBar>
+      )
+    }
+
+    return null
+  }
+
   const open = Boolean(anchorEl)
   const id = open ? 'simple-popover' : undefined
 
@@ -107,12 +145,22 @@ function Header(props) {
                       primary={<Link href="/register">Register</Link>}
                     />
                   </ListItem>
+                  <ListItem button>
+                    <ListItemText
+                      primary={
+                        <Link onClick={handleLogout} href="/">
+                          Logout
+                        </Link>
+                      }
+                    />
+                  </ListItem>
                 </List>
               </Popover>
             </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
+      {renderGreeting()}
     </React.Fragment>
   )
 }

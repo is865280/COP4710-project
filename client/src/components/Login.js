@@ -15,6 +15,8 @@ import Container from '@material-ui/core/Container'
 import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 import axios from 'axios'
+import JWT from 'jwt-client'
+import { useHistory } from 'react-router-dom'
 
 function Copyright() {
   return (
@@ -59,6 +61,7 @@ function Login() {
 
   const [username, setUsername] = React.useState('')
   const [password, setPassword] = React.useState('')
+  const history = useHistory()
 
   const handleUsernameChange = event => {
     setUsername(event.target.value)
@@ -76,7 +79,8 @@ function Login() {
         password: password
       })
       .then(response => {
-        console.log(response)
+        JWT.keep(response.data.token)
+        history.push('/')
       })
       .catch(error => {
         console.error(error)
