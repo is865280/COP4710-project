@@ -6103,6 +6103,11 @@ jsx-ast-utils@^2.1.0, jsx-ast-utils@^2.2.1:
     array-includes "^3.0.3"
     object.assign "^4.1.0"
 
+jwt-client@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/jwt-client/-/jwt-client-0.2.1.tgz#203b25036cd1fe91808c40819d2d95c845d90000"
+  integrity sha1-IDslA2zR/pGAjECBnS2VyEXZAAA=
+
 killable@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/killable/-/killable-1.0.1.tgz#4c8ce441187a061c7474fb87ca08e2a638194892"
