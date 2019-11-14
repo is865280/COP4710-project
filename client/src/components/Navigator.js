@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import { withStyles } from '@material-ui/core/styles'
 import Divider from '@material-ui/core/Divider'
 import Drawer from '@material-ui/core/Drawer'
@@ -38,6 +39,7 @@ const categories = [
   {
     id: 'Account',
     children: [
+      { id: 'My Events', icon: <CalendarTodayIcon /> },
       { id: 'Status', icon: <InfoIcon /> },
       { id: 'Settings', icon: <SettingsIcon /> }
     ]

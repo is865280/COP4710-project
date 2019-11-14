@@ -137,16 +137,33 @@ exports.getEventFeed = (req, res) => {
   db.query('SELECT university_id FROM users WHERE id = ?', req.user.id, (err, resUniID) => {
     if (err) res.send(err)
 
-    db.query(`SELECT * FROM event WHERE id IN (
+    db.query(`SELECT *, DATEDIFF(date, CURDATE()) AS diff FROM event WHERE id IN (
       SELECT event_id FROM RSO_event WHERE RSO_id IN (
         SELECT RSO_id FROM members WHERE user_id = ?
       )
       UNION ALL 
       SELECT event_id FROM private_event WHERE university_id = ? AND approved_by IS NOT NULL
       UNION ALL 
-      SELECT event_id FROM public_event WHERE approved_by IS NOT NULL);`, [req.user.id, resUniID[0].university_id], (err, resEvents) => {
-      if (err) res.send(err)
-      res.send(resEvents)
-    })
+      SELECT event_id FROM public_event WHERE approved_by IS NOT NULL)
+      ORDER BY CASE WHEN date IS NULL THEN 1 ELSE 0 END,
+      CASE WHEN diff < 0 THEN 1 ELSE 0 END, diff, date, time`,
+      [req.user.id, resUniID[0].university_id], (err, resEvents) => {
+        if (err) res.send(err)
+        res.send(resEvents)
+      })
+  })
+}
+
+exports.getUnapprovePrivate = (req, res) => {
+  db.query('SELECT * FROM private_event WHERE approved_by IS NULL', (err, resPri) => {
+    if (err) res.send(err)
+    res.send(resPri)
+  })
+}
+
+exports.getUnapprovePublic = (req, res) => {
+  db.query('SELECT * FROM public_event WHERE approved_by IS NULL', (err, resPri) => {
+    if (err) res.send(err)
+    res.send(resPri)
   })
 }
