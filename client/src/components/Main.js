@@ -405,7 +405,50 @@ function University() {
   }
 
   function renderJoinUniversity() {
-    return renderCreateUniversity()
+    let universities = null
+    axios
+      .get('/university')
+      .then(response => {
+        universities = response.data
+      })
+      .catch(error => {
+        console.error(error)
+      })
+
+    // Edit code below to make it a drop down with the universities above
+    return (
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Typography component="h1" variant="h5">
+            Join A University
+          </Typography>
+          <form onSubmit={handleSubmit} className={classes.form} noValidate>
+            <TextField
+              onChange={handleNameChange}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="name"
+              label="University Name"
+              name="name"
+              autoComplete="name"
+              autoFocus
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Join
+            </Button>
+          </form>
+        </div>
+      </Container>
+    )
   }
 
   const match = useRouteMatch()
@@ -415,7 +458,7 @@ function University() {
         <Route exact path="/university/create">
           {renderCreateUniversity()}
         </Route>
-        <Route exact path="/university/join">
+        <Route exact path="/university/_join">
           {renderJoinUniversity()}
         </Route>
       </Switch>
