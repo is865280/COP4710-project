@@ -1,27 +1,61 @@
 import React from 'react'
+
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  useRouteMatch,
+  useHistory
+} from 'react-router-dom'
+
 import PropTypes from 'prop-types'
+
 import {
   createMuiTheme,
   ThemeProvider,
+  makeStyles,
   withStyles
 } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Hidden from '@material-ui/core/Hidden'
 import Typography from '@material-ui/core/Typography'
-import Link from '@material-ui/core/Link'
+import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
+import Container from '@material-ui/core/Container'
+
+import axios from 'axios'
+import JWT from 'jwt-client'
+
 import Navigator from './Navigator'
 import Content from './Content'
 import Header from './Header'
+import Login from './Login'
+import Register from './Register'
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  )
-}
+const useStyles = makeStyles(theme => ({
+  '@global': {
+    body: {
+      backgroundColor: theme.palette.common.white
+    }
+  },
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: '#4287f5'
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1)
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2)
+  }
+}))
 
 let theme = createMuiTheme({
   palette: {
@@ -189,14 +223,203 @@ function Main(props) {
         <div className={classes.app}>
           <Header onDrawerToggle={handleDrawerToggle} />
           <main className={classes.main}>
-            <Content />
+            <Router>
+              <div className="App">
+                <Switch>
+                  <Route exact path="/">
+                    <Content />
+                  </Route>
+                  <Route exact path="/login">
+                    <Login />
+                  </Route>
+                  <Route exact path="/register">
+                    <Register />
+                  </Route>
+                  <University />
+                </Switch>
+              </div>
+            </Router>
           </main>
-          <footer className={classes.footer}>
-            <Copyright />
-          </footer>
         </div>
       </div>
     </ThemeProvider>
+  )
+}
+
+function University() {
+  const classes = useStyles()
+
+  const [name, setName] = React.useState('')
+  const handleNameChange = event => {
+    setName(event.target.value)
+  }
+
+  const [description, setDescription] = React.useState('')
+  const handleDescriptionChange = event => {
+    setDescription(event.target.value)
+  }
+
+  const [numberOfStudents, setNumberOfStudents] = React.useState('')
+  const handleNumberOfStudentsChange = event => {
+    setNumberOfStudents(event.target.value)
+  }
+
+  const [address, setAddress] = React.useState('')
+  const handleAddressChange = event => {
+    setAddress(event.target.value)
+  }
+
+  const [lattitude, setLattitude] = React.useState('')
+  const handleLattitudeChange = event => {
+    setLattitude(event.target.value)
+  }
+
+  const [longitude, setLongitude] = React.useState('')
+  const handleLongitudeChange = event => {
+    setLongitude(event.target.value)
+  }
+
+  const [password, setPassword] = React.useState('')
+  const handlePasswordChange = event => {
+    setPassword(event.target.value)
+  }
+
+  const history = useHistory()
+  const handleSubmit = event => {
+    event.preventDefault()
+    const location = {
+      name: name,
+      address: address,
+      lattitude: lattitude,
+      longitude: longitude
+    }
+
+    axios
+      .post('/university', {
+        location: location,
+        name: name,
+        description: description,
+        num_students: numberOfStudents,
+        pictures: null
+      })
+      .then(response => {
+        history.push('/')
+      })
+      .catch(error => {
+        console.error(error)
+      })
+  }
+
+  function renderCreateUniversity() {
+    return (
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Typography component="h1" variant="h5">
+            Create A University
+          </Typography>
+          <form onSubmit={handleSubmit} className={classes.form} noValidate>
+            <TextField
+              onChange={handleNameChange}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="name"
+              label="University Name"
+              name="name"
+              autoComplete="name"
+              autoFocus
+            />
+            <TextField
+              onChange={handleDescriptionChange}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="description"
+              label="University Description"
+              name="description"
+              autoComplete="description"
+              autoFocus
+            />
+            <TextField
+              onChange={handleNumberOfStudentsChange}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="numberOfStudents"
+              label="University Number of Students"
+              name="numberOfStudents"
+              autoComplete="numberOfStudents"
+              autoFocus
+            />
+            <TextField
+              onChange={handleAddressChange}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="address"
+              label="Location Address"
+              name="address"
+              autoComplete="address"
+              autoFocus
+            />
+            <TextField
+              onChange={handleLattitudeChange}
+              variant="outlined"
+              margin="normal"
+              required
+              id="lattitude"
+              label="Location Lattitude"
+              name="lattitude"
+              autoComplete="lattitude"
+              autoFocus
+            />
+            <TextField
+              onChange={handleLongitudeChange}
+              variant="outlined"
+              margin="normal"
+              required
+              id="longitude"
+              label="Location Longitude"
+              name="longitude"
+              autoComplete="longitude"
+              autoFocus
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Create
+            </Button>
+          </form>
+        </div>
+      </Container>
+    )
+  }
+
+  function renderJoinUniversity() {
+    return renderCreateUniversity()
+  }
+
+  const match = useRouteMatch()
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/university/create">
+          {renderCreateUniversity()}
+        </Route>
+        <Route exact path="/university/join">
+          {renderJoinUniversity()}
+        </Route>
+      </Switch>
+    </Router>
   )
 }
 
