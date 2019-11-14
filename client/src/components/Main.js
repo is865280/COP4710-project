@@ -235,8 +235,9 @@ function Main(props) {
                   <Route exact path="/register">
                     <Register />
                   </Route>
-                  <University />
                 </Switch>
+                <University />
+                <Rso />
               </div>
             </Router>
           </main>
@@ -316,7 +317,7 @@ function University() {
         <CssBaseline />
         <div className={classes.paper}>
           <Typography component="h1" variant="h5">
-            Create A University
+            Create a University
           </Typography>
           <form onSubmit={handleSubmit} className={classes.form} noValidate>
             <TextField
@@ -421,7 +422,7 @@ function University() {
         <CssBaseline />
         <div className={classes.paper}>
           <Typography component="h1" variant="h5">
-            Join A University
+            Join a University
           </Typography>
           <form onSubmit={handleSubmit} className={classes.form} noValidate>
             <TextField
@@ -460,6 +461,167 @@ function University() {
         </Route>
         <Route exact path="/university/_join">
           {renderJoinUniversity()}
+        </Route>
+      </Switch>
+    </Router>
+  )
+}
+
+function Rso() {
+  const classes = useStyles()
+
+  const [name, setName] = React.useState('')
+  const handleNameChange = event => {
+    setName(event.target.value)
+  }
+
+  const [description, setDescription] = React.useState('')
+  const handleDescriptionChange = event => {
+    setDescription(event.target.value)
+  }
+
+  const [numberOfStudents, setNumberOfStudents] = React.useState('')
+  const handleNumberOfStudentsChange = event => {
+    setNumberOfStudents(event.target.value)
+  }
+
+  const history = useHistory()
+  const handleSubmit = event => {
+    event.preventDefault()
+
+    const userId = JWT.remember().claim.userId
+
+    axios
+      .post('/rso', {
+        name: name,
+        description: description,
+        num_members: numberOfStudents,
+        user: { id: userId }
+      })
+      .then(response => {
+        history.push('/')
+      })
+      .catch(error => {
+        console.error(error)
+      })
+  }
+
+  function renderCreateRso() {
+    return (
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Typography component="h1" variant="h5">
+            Create an RSO
+          </Typography>
+          <form onSubmit={handleSubmit} className={classes.form} noValidate>
+            <TextField
+              onChange={handleNameChange}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="name"
+              label="RSO Name"
+              name="name"
+              autoComplete="name"
+              autoFocus
+            />
+            <TextField
+              onChange={handleDescriptionChange}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="description"
+              label="RSO Description"
+              name="description"
+              autoComplete="description"
+              autoFocus
+            />
+            <TextField
+              onChange={handleNumberOfStudentsChange}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="numberOfStudents"
+              label="RSO Number of Students"
+              name="numberOfStudents"
+              autoComplete="numberOfStudents"
+              autoFocus
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Create
+            </Button>
+          </form>
+        </div>
+      </Container>
+    )
+  }
+
+  function renderJoinRso() {
+    let rsos = null
+    axios
+      .get('/rso')
+      .then(response => {
+        rsos = response.data
+      })
+      .catch(error => {
+        console.error(error)
+      })
+
+    // Edit code below to make it a drop down with the RSOs above
+    return (
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Typography component="h1" variant="h5">
+            Join an RSO
+          </Typography>
+          <form onSubmit={handleSubmit} className={classes.form} noValidate>
+            <TextField
+              onChange={handleNameChange}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="name"
+              label="University Name"
+              name="name"
+              autoComplete="name"
+              autoFocus
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Join
+            </Button>
+          </form>
+        </div>
+      </Container>
+    )
+  }
+
+  const match = useRouteMatch()
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/rso/create">
+          {renderCreateRso()}
+        </Route>
+        <Route exact path="/rso/_join">
+          {renderJoinRso()}
         </Route>
       </Switch>
     </Router>
