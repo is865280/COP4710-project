@@ -77,7 +77,7 @@ function Header(props) {
           <Toolbar>
             <Grid container alignItems="center" spacing={1}>
               <Grid item xs>
-                <Typography color="inherit" variant="h5" component="h1">
+                <Typography color="inherit" variant="h4" component="h1">
                   Hello {username}
                 </Typography>
               </Grid>

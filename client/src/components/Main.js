@@ -235,6 +235,9 @@ function Main(props) {
                   <Route exact path="/register">
                     <Register />
                   </Route>
+                  <Route exact path="/organizations">
+                    <Organizations />
+                  </Route>
                 </Switch>
                 <University />
                 <Rso />

@@ -5,6 +5,7 @@ import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import { withStyles } from '@material-ui/core/styles'
 import Divider from '@material-ui/core/Divider'
 import Drawer from '@material-ui/core/Drawer'
+import Link from '@material-ui/core/Link'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
@@ -30,10 +31,9 @@ const categories = [
   {
     id: 'Events',
     children: [
-      { id: 'Featured', icon: <StarBorderIcon />, active: true },
-      { id: 'Following', icon: <PeopleIcon /> },
-      { id: 'New', icon: <NewReleasesIcon /> },
-      { id: 'Search', icon: <SearchIcon /> }
+      { id: 'Organizations', icon: <StarBorderIcon />, active: true, href: "/organizations" },
+      { id: 'Events', icon: <NewReleasesIcon /> },
+      { id: 'Search All', icon: <SearchIcon /> }
     ]
   },
   {
@@ -110,21 +110,23 @@ function Navigator(props) {
                 {id}
               </ListItemText>
             </ListItem>
-            {children.map(({ id: childId, icon, active }) => (
-              <ListItem
-                key={childId}
-                button
-                className={clsx(classes.item, active && classes.itemActiveItem)}
-              >
-                <ListItemIcon className={classes.itemIcon}>{icon}</ListItemIcon>
-                <ListItemText
-                  classes={{
-                    primary: classes.itemPrimary
-                  }}
+            {children.map(({ id: childId, icon, active, href }) => (
+              <Link href={href}>
+                <ListItem
+                  key={childId}
+                  button
+                  className={clsx(classes.item, active && classes.itemActiveItem)}
                 >
-                  {childId}
-                </ListItemText>
-              </ListItem>
+                  <ListItemIcon className={classes.itemIcon}>{icon}</ListItemIcon>
+                  <ListItemText
+                    classes={{
+                      primary: classes.itemPrimary
+                    }}
+                  >
+                    {childId}
+                  </ListItemText>
+                </ListItem>
+              </Link>
             ))}
 
             <Divider className={classes.divider} />
