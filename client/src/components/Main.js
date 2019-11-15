@@ -31,6 +31,7 @@ import Content from './Content'
 import Header from './Header'
 import Login from './Login'
 import Register from './Register'
+import Organizations from './Organizations'
 
 const useStyles = makeStyles(theme => ({
   '@global': {

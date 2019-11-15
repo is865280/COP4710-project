@@ -29,7 +29,7 @@ import logo from './imgs/RoundtableLogoDark.png'
 
 const categories = [
   {
-    id: 'Events',
+    id: 'Find',
     children: [
       { id: 'Organizations', icon: <StarBorderIcon />, active: true, href: "/organizations" },
       { id: 'Events', icon: <NewReleasesIcon /> },
