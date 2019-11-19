@@ -4,7 +4,6 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
-import Popover from '@material-ui/core/Popover'
 
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
@@ -101,23 +100,8 @@ function Content(props) {
       .catch(error => {
       })
   }
-
-  const [anchorEl, setAnchorEl] = React.useState(null)
-
-  const handleClickPop = event => {
-    setAnchorEl(event.currentTarget)
-  }
-
-  const handleClosePop = () => {
-    setAnchorEl(null)
-  }
-
-  const openPop = Boolean(anchorEl);
-  const idPop = open ? 'simple-popover' : undefined;
-
   function Events(props) {
     const classes = useStyles();
-
 
     if (events.length != 0) {
       var eventFeed = events || []
@@ -147,7 +131,7 @@ function Content(props) {
       )
     }
     return (<Typography color="textSecondary" align="center">
-      No organizations found
+      No posts found
   </Typography>)
 
   }
@@ -165,80 +149,9 @@ function Content(props) {
             <Grid item>
             </Grid>
             <Grid item xs>
-              Organization Feed
+              My Feed
             </Grid>
             <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.addUser}
-                onClick={handleClickPop}
-              >
-                Add
-              </Button>
-              <Popover
-                id={idPop}
-                open={openPop}
-                anchorEl={anchorEl}
-                onClose={handleClosePop}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-              >
-                <div className={classes.div1}>
-                  <Typography variant="h6" className={classes.typography}>Add New Organization</Typography>
-                  <TextField
-                    label="Name"
-                    type="text"
-                    margin="normal"
-                    onChange={e => { }}
-                  />
-                  <TextField
-                    label="Category"
-                    type="text"
-                    margin="normal"
-                    onChange={e => { }}
-                  />
-                  <TextField
-                    label="Description"
-                    type="text"
-                    margin="normal"
-                    onChange={e => { }}
-                  />
-                  <TextField
-                    label="University"
-                    type="text"
-                    margin="normal"
-                    onChange={e => { }}
-                  />
-                  <TextField
-                    label="Phone"
-                    type="text"
-                    margin="normal"
-                    onChange={e => { }}
-                  />
-                  <TextField
-                    label="Email"
-                    type="text"
-                    margin="normal"
-                    onChange={e => { }}
-                  />
-                  <Button
-                    variant="contained"
-                    color="primary"
-                  //onClick={}
-                  >
-                    Add
-                </Button>
-                </div>
-
-              </Popover>
-
               <Button
                 variant="contained"
                 color="primary"
@@ -247,6 +160,7 @@ function Content(props) {
               >
                 Refresh
               </Button>
+
             </Grid>
           </Grid>
         </Toolbar>

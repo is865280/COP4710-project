@@ -31,8 +31,10 @@ import Content from './Content'
 import Header from './Header'
 import Login from './Login'
 import Register from './Register'
+import Universities from './Universities'
 import Organizations from './Organizations'
-import Events from './Events'
+import Events from './EventsTest'
+import MyPosts from './MyPosts'
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -231,6 +233,9 @@ function Main(props) {
                   <Route exact path="/">
                     <Organizations />
                   </Route>
+                  <Route exact path="/universities">
+                    <Universities />
+                  </Route>
                   <Route exact path="/organizations">
                     <Organizations />
                   </Route>
@@ -245,6 +250,9 @@ function Main(props) {
                   </Route>
                   <Route exact path="/search">
                     <Content />
+                  </Route>
+                  <Route exact path="/userposts">
+                    <MyPosts />
                   </Route>
                 </Switch>
                 <University />

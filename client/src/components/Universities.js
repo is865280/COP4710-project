@@ -147,7 +147,7 @@ function Content(props) {
       )
     }
     return (<Typography color="textSecondary" align="center">
-      No organizations found
+      No universities found
   </Typography>)
 
   }
@@ -165,7 +165,7 @@ function Content(props) {
             <Grid item>
             </Grid>
             <Grid item xs>
-              Organization Feed
+              University Feed
             </Grid>
             <Grid item>
               <Button
@@ -191,7 +191,7 @@ function Content(props) {
                 }}
               >
                 <div className={classes.div1}>
-                  <Typography variant="h6" className={classes.typography}>Add New Organization</Typography>
+                  <Typography variant="h6" className={classes.typography}>Add New University</Typography>
                   <TextField
                     label="Name"
                     type="text"
@@ -199,7 +199,7 @@ function Content(props) {
                     onChange={e => { }}
                   />
                   <TextField
-                    label="Category"
+                    label="Location"
                     type="text"
                     margin="normal"
                     onChange={e => { }}
@@ -211,7 +211,7 @@ function Content(props) {
                     onChange={e => { }}
                   />
                   <TextField
-                    label="University"
+                    label="Student Population"
                     type="text"
                     margin="normal"
                     onChange={e => { }}

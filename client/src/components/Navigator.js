@@ -21,6 +21,7 @@ import PublicIcon from '@material-ui/icons/Public'
 import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet'
 import SettingsInputComponentIcon from '@material-ui/icons/SettingsInputComponent'
 import TimerIcon from '@material-ui/icons/Timer'
+import SchoolIcon from '@material-ui/icons/School';
 import SearchIcon from '@material-ui/icons/Search'
 import SettingsIcon from '@material-ui/icons/Settings'
 import StarBorderIcon from '@material-ui/icons/StarBorder'
@@ -31,17 +32,17 @@ const categories = [
   {
     id: 'Find',
     children: [
-      { id: 'Organizations', icon: <StarBorderIcon />, active: true, href: "/organizations" },
-      { id: 'Events', icon: <NewReleasesIcon />, href: "/events" },
-      { id: 'Search All', icon: <SearchIcon />, href: "/search" }
+      { id: 'Universities', icon: <SchoolIcon />, active: true, href: "/universities" },
+      { id: 'Organizations', icon: <StarBorderIcon />, href: "/organizations" },
+      { id: 'Events', icon: <CalendarTodayIcon />, href: "/events" }
     ]
   },
   {
     id: 'Account',
     children: [
-      { id: 'My Events', icon: <CalendarTodayIcon /> },
-      { id: 'Status', icon: <InfoIcon /> },
-      { id: 'Settings', icon: <SettingsIcon /> }
+      { id: 'My Posts', icon: <NewReleasesIcon />, href: "/userposts" },
+      { id: 'Status', icon: <InfoIcon />, href: "/status" },
+      { id: 'Settings', icon: <SettingsIcon />, href: "/settings" }
     ]
   }
 ]
