@@ -45,7 +45,7 @@ const EventInfo = (props) => {
     };
     if (event[0]) {
         return (
-            <Dialog onClick={handleClose} aria-labelledby="dialog-title" open={open}>
+            <Dialog onClose={handleClose} aria-labelledby="dialog-title" open={open}>
                 <DialogTitle id="dialog-title">{event[0].name}</DialogTitle>
                 <List>
                     <ListItem  >
