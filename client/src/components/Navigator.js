@@ -32,8 +32,8 @@ const categories = [
     id: 'Find',
     children: [
       { id: 'Organizations', icon: <StarBorderIcon />, active: true, href: "/organizations" },
-      { id: 'Events', icon: <NewReleasesIcon /> },
-      { id: 'Search All', icon: <SearchIcon /> }
+      { id: 'Events', icon: <NewReleasesIcon />, href: "/events" },
+      { id: 'Search All', icon: <SearchIcon />, href: "/search" }
     ]
   },
   {

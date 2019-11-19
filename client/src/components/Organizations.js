@@ -51,7 +51,7 @@ function Content(props) {
   return (
     <Grid item>
       <Typography gutterBottom variant="h5" component="h2">
-        Featured
+        Organizations
           </Typography>
       <Card className={classes.card}>
         <CardActionArea>
@@ -61,10 +61,10 @@ function Content(props) {
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
-              Event
+              Organization
           </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              Event descripton
+              Organization descripton
           </Typography>
           </CardContent>
         </CardActionArea>

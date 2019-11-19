@@ -32,6 +32,7 @@ import Header from './Header'
 import Login from './Login'
 import Register from './Register'
 import Organizations from './Organizations'
+import Events from './Events'
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -228,7 +229,13 @@ function Main(props) {
               <div className="App">
                 <Switch>
                   <Route exact path="/">
-                    <Content />
+                    <Organizations />
+                  </Route>
+                  <Route exact path="/organizations">
+                    <Organizations />
+                  </Route>
+                  <Route exact path="/events">
+                    <Events />
                   </Route>
                   <Route exact path="/login">
                     <Login />
@@ -236,8 +243,8 @@ function Main(props) {
                   <Route exact path="/register">
                     <Register />
                   </Route>
-                  <Route exact path="/organizations">
-                    <Organizations />
+                  <Route exact path="/search">
+                    <Content />
                   </Route>
                 </Switch>
                 <University />

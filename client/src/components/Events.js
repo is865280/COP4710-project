@@ -1,10 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
+import Card from '@material-ui/core/Card'
+import CardActionArea from '@material-ui/core/CardActionArea'
+import CardMedia from '@material-ui/core/CardMedia'
+import CardContent from '@material-ui/core/CardContent'
+import CardActions from '@material-ui/core/CardActions'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
-
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
@@ -13,16 +15,6 @@ import IconButton from '@material-ui/core/IconButton'
 import { withStyles } from '@material-ui/core/styles'
 import SearchIcon from '@material-ui/icons/Search'
 import RefreshIcon from '@material-ui/icons/Refresh'
-
-import JWT from 'jwt-client'
-
-import axios from 'axios'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import CardActions from '@material-ui/core/CardActions'
-
-import { makeStyles } from '@material-ui/core/styles';
-import { red } from '@material-ui/core/colors'
 
 const styles = theme => ({
   paper: {
@@ -42,123 +34,42 @@ const styles = theme => ({
   addUser: {
     marginRight: theme.spacing(1)
   },
+  card: {
+    maxWidth: 300,
+  },
+  media: {
+    height: 110,
+  },
   contentWrapper: {
     margin: '40px 16px'
   }
 })
 
-
 function Content(props) {
   const { classes } = props
 
-  const useStyles = makeStyles({
-    card: {
-      minWidth: 275,
-    },
-    bullet: {
-      display: 'inline-block',
-      margin: '0 2px',
-      transform: 'scale(0.8)',
-    },
-    title: {
-      fontSize: 14,
-    },
-    pos: {
-      marginBottom: 12,
-    },
-  });
-
-  const [events, setEvents] = React.useState([])
-
-  function getEvents() {
-    const token = JWT.get()
-    if (token) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-    }
-    axios
-      .get('/event')
-      .then(response => {
-        setEvents(response.data)
-      })
-      .catch(error => {
-      })
-  }
-  function Events(props) {
-    const classes = useStyles();
-
-    if (events.length != 0) {
-      var eventFeed = events || []
-      return (
-        <Grid container spacing={3}>
-          {eventFeed.map((item, index) =>
-            <Grid key={item.id} item md={4}>
-              <Card color="primary" className={classes.card}>
-                <CardContent>
-                  <Typography variant="h5" component="h2">
-                    {item.name}
-                  </Typography>
-                  <Typography className={classes.pos} color="textSecondary">
-                    {item.category}<br />
-                    {(item.date != null) ? item.date.split('T')[0] : ''} {' '}
-                    {(item.time != null) ? parseInt(item.time.split(':')[0], 10) + ':' + item.time.split(':')[1] : ''}
-                  </Typography>
-                  <Typography component="p" >
-                    {item.description}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>)
-          }
-        </Grid >
-      )
-    }
-    return (<Typography color="textSecondary" align="center">
-      No events found
-  </Typography>)
-
-  }
-
   return (
-    <Paper className={classes.paper}>
-      <AppBar
-        className={classes.searchBar}
-        position="static"
-        color="default"
-        elevation={0}
-      >
-        <Toolbar>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item>
-              <SearchIcon className={classes.block} color="inherit" />
-            </Grid>
-            <Grid item xs>
-              <TextField
-                fullWidth
-                placeholder="Search by event name, organization, or location"
-                InputProps={{
-                  disableUnderline: true,
-                  className: classes.searchInput
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.addUser}
-                onClick={getEvents}
-              >
-                Search
-              </Button>
-            </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
-      <div className={classes.contentWrapper}>
-
-        <Events />
-      </div>
-    </Paper>
+    <Grid item>
+      <Typography gutterBottom variant="h5" component="h2">
+        Events
+          </Typography>
+      <Card className={classes.card}>
+        <CardActionArea>
+          <CardMedia
+            className={classes.media}
+            image='./imgs/RoundtableLogoDark.png'
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              Event
+          </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              Event descripton
+          </Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    </Grid>
   )
 }
 
