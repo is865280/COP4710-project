@@ -33,7 +33,7 @@ import Login from './Login'
 import Register from './Register'
 import Universities from './Universities'
 import Organizations from './Organizations'
-import Events from './EventsTest'
+import Events from './Events'
 import MyPosts from './MyPosts'
 
 const useStyles = makeStyles(theme => ({
