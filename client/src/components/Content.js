@@ -23,6 +23,7 @@ import CardActions from '@material-ui/core/CardActions'
 
 import { makeStyles } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors'
+import EventInfo from './EventInfo'
 
 const styles = theme => ({
   paper: {
@@ -67,8 +68,24 @@ function Content(props) {
       marginBottom: 12,
     },
   });
-
+  const [inital, setInital] = React.useState(0)
   const [events, setEvents] = React.useState([])
+  const [open, setOpen] = React.useState(false);
+  const [selectedValue, setSelectedValue] = React.useState('loading');
+
+  const handleClickOpen = (value) => {
+    setSelectedValue(value)
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  if (inital == 0) {
+    getEvents()
+    setInital(1)
+  }
 
   function getEvents() {
     const token = JWT.get()
@@ -91,7 +108,7 @@ function Content(props) {
       return (
         <Grid container spacing={3}>
           {eventFeed.map((item, index) =>
-            <Grid key={item.id} item md={4}>
+            <Grid key={item.id} item md={4} onClick={(e) => { console.log(item.id); handleClickOpen(item.id) }}>
               <Card color="primary" className={classes.card}>
                 <CardContent>
                   <Typography variant="h5" component="h2">
@@ -103,12 +120,13 @@ function Content(props) {
                     {(item.time != null) ? parseInt(item.time.split(':')[0], 10) + ':' + item.time.split(':')[1] : ''}
                   </Typography>
                   <Typography component="p" >
-                    {item.description}
+                    {(item.description.length <= 100) ? item.description : item.description.substring(0, 100) + "..."}
                   </Typography>
                 </CardContent>
               </Card>
             </Grid>)
           }
+          <EventInfo selectedValue={selectedValue} open={open} onClose={handleClose} />
         </Grid >
       )
     }
@@ -129,17 +147,9 @@ function Content(props) {
         <Toolbar>
           <Grid container spacing={2} alignItems="center">
             <Grid item>
-              <SearchIcon className={classes.block} color="inherit" />
             </Grid>
             <Grid item xs>
-              <TextField
-                fullWidth
-                placeholder="Search by event name, organization, or location"
-                InputProps={{
-                  disableUnderline: true,
-                  className: classes.searchInput
-                }}
-              />
+              Event Feed
             </Grid>
             <Grid item>
               <Button
@@ -148,7 +158,7 @@ function Content(props) {
                 className={classes.addUser}
                 onClick={getEvents}
               >
-                Search
+                Refresh
               </Button>
             </Grid>
           </Grid>

@@ -5,7 +5,7 @@ var loginRequired = require('../../controllers/user').loginRequired
 module.exports = () => {
   router
     .route('/')
-    .get(loginRequired, controller.event.getEventFeed)
+    .get(controller.event.getEventFeed)
     .post(loginRequired, controller.event.addNew)
   router
     .route('/public')
@@ -15,6 +15,9 @@ module.exports = () => {
     .route('/private')
     .get(loginRequired, controller.event.getUnapprovePrivate)
     .patch(loginRequired, controller.event.approvePrivate)
+  router
+    .route('/info/:zone_id')
+    .get(controller.event.getEventById)
 
   return router
 }
