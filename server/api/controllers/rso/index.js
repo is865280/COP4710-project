@@ -49,3 +49,20 @@ exports.leaveRSO = (req, res) => {
     }
   )
 }
+
+exports.getAll = (req, res) => {
+  db.query(
+    'SELECT * FROM RSO',
+    (err, resRSOs) => {
+      if (err) res.send(err)
+      res.send(resRSOs)
+    }
+  )
+}
+
+exports.getById = (req, res) => {
+  db.query('SELECT * FROM RSO WHERE id = ?', [req.params.rso_id], (err, resRSO) => {
+    if (err) res.send(err)
+    res.send(resRSO)
+  })
+}

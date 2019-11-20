@@ -7,6 +7,8 @@ module.exports = () => {
     .route('/')
     .get(controller.comments.getComments)
     .post(loginRequired, controller.comments.addNew)
+    .patch(loginRequired, controller.comments.updateById)
+    .delete(loginRequired, controller.comments.deleteById)
 
   return router
 }

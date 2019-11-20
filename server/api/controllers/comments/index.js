@@ -25,3 +25,33 @@ exports.getComments = (req, res) => {
     }
   )
 }
+
+exports.updateById = (req, res) => {
+  var updateComment = {
+    rating: req.body.rating,
+    text: req.body.text,
+  }
+  db.query(
+    'UPDATE comments SET ? WHERE id = ? AND created_by = ?', [updateComment, req.body.comment_id, req.user.id],
+    (err, resComs) => {
+      if (err) res.send(err)
+
+      res.send(resComs)
+    }
+  )
+}
+
+exports.deleteById = (req, res) => {
+  var updateComment = {
+    rating: req.body.rating,
+    text: req.body.text,
+  }
+  db.query(
+    'DELETE FROM comments WHERE id = ?', req.body.comment_id,
+    (err, resComs) => {
+      if (err) res.send(err)
+
+      res.send(resComs)
+    }
+  )
+}
