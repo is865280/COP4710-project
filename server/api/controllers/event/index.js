@@ -180,7 +180,7 @@ exports.getUnapprovePublic = (req, res) => {
 }
 
 exports.getEventById = (req, res) => {
-  db.query('SELECT * FROM event WHERE id = ?', [req.params.zone_id], (err, resEvent) => {
+  db.query('SELECT * FROM event WHERE id = ?', [req.params.event_id], (err, resEvent) => {
     if (err) res.send(err)
     res.send(resEvent)
   })

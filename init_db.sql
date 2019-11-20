@@ -74,6 +74,7 @@ CREATE TABLE `comments` (
   `created_by` int,
   `rating` int,
   `text` text
+  `date_created` DATETIME NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE `members` (

@@ -5,7 +5,7 @@ exports.addNew = (req, res) => {
     rating: req.body.rating,
     text: req.body.text,
     event_id: req.body.event_id,
-    created_by: req.body.user_id
+    created_by: req.user.id
   }
   db.query('INSERT INTO comments SET ?', newComment, (err, resCom) => {
     if (err) res.send(err)
@@ -16,8 +16,11 @@ exports.addNew = (req, res) => {
 
 exports.getComments = (req, res) => {
   db.query(
-    'SELECT * FROM comments WHERE event_id = ?',
-    req.body.event_id,
+    `SELECT C.id, C.rating, C.text, U.username, C.created_by 
+    FROM comments AS C, users AS U 
+    WHERE C.event_id = ? AND C.created_by = U.id
+    ORDER BY  UNIX_TIMESTAMP(C.date_created) DESC`,
+    [req.params.event_id],
     (err, resComs) => {
       if (err) res.send(err)
 
