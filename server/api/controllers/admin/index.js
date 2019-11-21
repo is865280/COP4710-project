@@ -1,23 +1,26 @@
 const db = require('../../../api/services/dbConnectionService')
 
-exports.addNew = (req, res) => {
-  var newLocation = {
-    name: req.body.location.name,
-    address: req.body.location.address,
-    latitude: req.body.location.latitude,
-    longitude: req.body.location.longitude
-  }
-  db.query('INSERT INTO location SET ?', newLocation, (err, back) => {
-    if (err) res.send(err)
 
-    res.send(back)
+exports.isAdmin = (req, res) => {
+  db.query('SELECT EXISTS(SELECT * FROM admin WHERE user_id = ?)', req.user.id, (err, back) => {
+    if (err) res.send(err)
+    res.send({ isAdmin: Object.values(back[0])[0] })
   })
 }
 
-exports.getALL = (req, res) => {
-  db.query('SELECT * FROM location', (err, back) => {
+exports.isAdminOf = (req, res) => {
+  db.query('SELECT EXISTS(SELECT * FROM admin WHERE user_id = ? AND RSO_id = ?)', [req.user.id, req.params.rso_id], (err, back) => {
     if (err) res.send(err)
-
-    res.send(back)
+    res.send({ isAdmin: Object.values(back[0])[0] })
   })
+}
+
+exports.getRSOs = (req, res) => {
+  db.query(`SELECT A.id, A.RSO_id, R.name
+  FROM admin AS A, RSO AS R 
+  WHERE A.user_id = ? AND A.RSO_id = R.id`,
+    [req.user.id], (err, back) => {
+      if (err) res.send(err)
+      res.send(back)
+    })
 }

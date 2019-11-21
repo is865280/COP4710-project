@@ -5,6 +5,7 @@ var universityRoute = require('./university')
 var rsoRoute = require('./rso')
 var eventRoute = require('./event')
 var commentsRouter = require('./comments')
+var adminRouter = require('./admin')
 
 module.exports = () => {
   router.use('/user', userRoute())
@@ -13,6 +14,7 @@ module.exports = () => {
   router.use('/rso', rsoRoute())
   router.use('/event', eventRoute())
   router.use('/comments', commentsRouter())
+  router.use('/admin', adminRouter())
 
   return router
 }

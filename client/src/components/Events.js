@@ -26,6 +26,7 @@ import CardActions from '@material-ui/core/CardActions'
 import { makeStyles } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors'
 import EventInfo from './EventInfo'
+import NewEvent from './NewEvent'
 
 const styles = theme => ({
   paper: {
@@ -168,8 +169,11 @@ function Content(props) {
             <Grid item xs>
               Event Feed
             </Grid>
+            <Grid item >
+              <NewEvent />
+            </Grid>
             <Grid item>
-              <Button
+              {/* <Button
                 variant="contained"
                 color="primary"
                 className={classes.addUser}
@@ -232,8 +236,7 @@ function Content(props) {
                 </Button>
                 </div>
 
-              </Popover>
-
+              </Popover> */}
               <Button
                 variant="contained"
                 color="primary"
@@ -242,6 +245,7 @@ function Content(props) {
               >
                 Refresh
               </Button>
+
             </Grid>
           </Grid>
         </Toolbar>

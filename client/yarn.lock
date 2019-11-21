@@ -3260,6 +3260,11 @@ data-urls@^1.0.0, data-urls@^1.1.0:
     whatwg-mimetype "^2.2.0"
     whatwg-url "^7.0.0"
 
+date-and-time@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/date-and-time/-/date-and-time-0.11.0.tgz#1e22b61533af303953d79cc8c5e92e228fc5e4d2"
+  integrity sha512-VyzhHurex4wlg9oMszn7O+kxHchphWjzDn7Mv0WfkFKI6hSNOQePpTBFGsnRakvLNzQKXqPBAVV8DOxUGtUxqA==
+
 date-now@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/date-now/-/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
