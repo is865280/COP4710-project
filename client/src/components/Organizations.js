@@ -25,6 +25,7 @@ import CardActions from '@material-ui/core/CardActions'
 import { makeStyles } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors'
 import RSOInfo from './RSOInfo'
+import NewRSO from './NewRSO'
 
 const styles = theme => ({
   paper: {
@@ -167,78 +168,10 @@ function Content(props) {
             <Grid item xs>
               Organization Feed
             </Grid>
+            <Grid item >
+              <NewRSO />
+            </Grid>
             <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.addUser}
-                onClick={handleClickPop}
-              >
-                Add
-              </Button>
-              <Popover
-                id={idPop}
-                open={openPop}
-                anchorEl={anchorEl}
-                onClose={handleClosePop}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-              >
-                <div className={classes.div1}>
-                  <Typography variant="h6" className={classes.typography}>Add New Organization</Typography>
-                  <TextField
-                    label="Name"
-                    type="text"
-                    margin="normal"
-                    onChange={e => { }}
-                  />
-                  <TextField
-                    label="Category"
-                    type="text"
-                    margin="normal"
-                    onChange={e => { }}
-                  />
-                  <TextField
-                    label="Description"
-                    type="text"
-                    margin="normal"
-                    onChange={e => { }}
-                  />
-                  <TextField
-                    label="University"
-                    type="text"
-                    margin="normal"
-                    onChange={e => { }}
-                  />
-                  <TextField
-                    label="Phone"
-                    type="text"
-                    margin="normal"
-                    onChange={e => { }}
-                  />
-                  <TextField
-                    label="Email"
-                    type="text"
-                    margin="normal"
-                    onChange={e => { }}
-                  />
-                  <Button
-                    variant="contained"
-                    color="primary"
-                  //onClick={}
-                  >
-                    Add
-                </Button>
-                </div>
-
-              </Popover>
-
               <Button
                 variant="contained"
                 color="primary"

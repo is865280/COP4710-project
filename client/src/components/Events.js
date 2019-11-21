@@ -173,70 +173,6 @@ function Content(props) {
               <NewEvent />
             </Grid>
             <Grid item>
-              {/* <Button
-                variant="contained"
-                color="primary"
-                className={classes.addUser}
-                onClick={handleClickPop}
-              >
-                Add
-              </Button>
-              <Popover
-                id={idPop}
-                open={openPop}
-                anchorEl={anchorEl}
-                onClose={handleClosePop}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-              >
-                <div className={classes.div1}>
-                  <Typography variant="h6" className={classes.typography}>Add New Event</Typography>
-                  <TextField
-                    label="Name"
-                    type="text"
-                    margin="normal"
-                    onChange={e => { }}
-                  />
-                  <TextField
-                    label="Category"
-                    type="text"
-                    margin="normal"
-                    onChange={e => { }}
-                  />
-                  <TextField
-                    label="Description"
-                    type="text"
-                    margin="normal"
-                    onChange={e => { }}
-                  />
-                  <TextField
-                    label="Organization"
-                    type="text"
-                    margin="normal"
-                    onChange={e => { }}
-                  />
-                  <TextField
-                    label="Privacy"
-                    type="text"
-                    margin="normal"
-                    onChange={e => { }}
-                  />
-                  <Button
-                    variant="contained"
-                    color="primary"
-                  //onClick={}
-                  >
-                    Add
-                </Button>
-                </div>
-
-              </Popover> */}
               <Button
                 variant="contained"
                 color="primary"
@@ -251,7 +187,6 @@ function Content(props) {
         </Toolbar>
       </AppBar>
       <div className={classes.contentWrapper}>
-
         <Events />
       </div>
     </Paper>

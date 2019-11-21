@@ -153,7 +153,7 @@ export default function SimplePopover() {
                     horizontal: 'right',
                 }}
             >
-                <Typography className={classes.typography}>
+                <div className={classes.typography}>
                     <Typography variant="h6" className={classes.typography}>Add New Event</Typography>
                     <div className={classes.container}>
                         <FormControl className={classes.formControl}>
@@ -202,14 +202,14 @@ export default function SimplePopover() {
                                 displayEmpty
                             >
                                 {times.map(tile => (
-                                    <MenuItem value={tile.a}>{tile.v}</MenuItem>
+                                    <MenuItem key={tile.a} value={tile.a}>{tile.v}</MenuItem>
                                 ))}
                             </Select>
                             <FormHelperText>time</FormHelperText>
                         </FormControl>
                         <FormControl className={classes.formControl}>
                             <TextField
-                                error={dateErr}
+                                error={dateErr == 1}
                                 helperText={(dateErr) ? "Invalid Date" : ''}
                                 label="Date"
                                 type="date"
@@ -235,7 +235,6 @@ export default function SimplePopover() {
                             />
                         </FormControl>
                     </div>
-
                     <Button
                         variant="contained"
                         color="primary"
@@ -243,7 +242,7 @@ export default function SimplePopover() {
                     >
                         Add
                 </Button>
-                </Typography>
+                </div>
             </Popover>
         </div >
     );
