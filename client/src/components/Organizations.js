@@ -24,7 +24,7 @@ import CardActions from '@material-ui/core/CardActions'
 
 import { makeStyles } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors'
-import EventInfo from './EventInfo'
+import RSOInfo from './RSOInfo'
 
 const styles = theme => ({
   paper: {
@@ -89,12 +89,13 @@ function Content(props) {
   }
 
   function getEvents() {
+    setOpen(false)
     const token = JWT.get()
     if (token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
     }
     axios
-      .get('/event')
+      .get('/rso')
       .then(response => {
         setEvents(response.data)
       })
@@ -131,9 +132,8 @@ function Content(props) {
                     {item.name}
                   </Typography>
                   <Typography className={classes.pos} color="textSecondary">
-                    {item.category}<br />
-                    {(item.date != null) ? item.date.split('T')[0] : ''} {' '}
-                    {(item.time != null) ? parseInt(item.time.split(':')[0], 10) + ':' + item.time.split(':')[1] : ''}
+                    members: {item.num_members}<br />
+                    {(item.active) ? 'active' : 'inactive'}
                   </Typography>
                   <Typography component="p" >
                     {(item.description.length <= 100) ? item.description : item.description.substring(0, 100) + "..."}
@@ -142,7 +142,7 @@ function Content(props) {
               </Card>
             </Grid>)
           }
-          <EventInfo selectedValue={selectedValue} open={open} onClose={handleClose} />
+          <RSOInfo selectedValue={selectedValue} open={open} onClose={setInital} />
         </Grid >
       )
     }

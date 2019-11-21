@@ -9,8 +9,11 @@ module.exports = () => {
   router.route('/join')
     .post(loginRequired, controller.rso.joinRSO)
     .delete(loginRequired, controller.rso.leaveRSO)
+  router.route('/in/:rso_id')
+    .get(loginRequired, controller.rso.isMember)
   router.route('/info/:rso_id')
     .get(controller.rso.getById)
+
 
 
   return router

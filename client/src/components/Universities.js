@@ -94,7 +94,7 @@ function Content(props) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
     }
     axios
-      .get('/event')
+      .get('/university')
       .then(response => {
         setEvents(response.data)
       })

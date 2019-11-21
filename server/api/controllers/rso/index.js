@@ -66,3 +66,10 @@ exports.getById = (req, res) => {
     res.send(resRSO)
   })
 }
+
+exports.isMember = (req, res) => {
+  db.query('SELECT EXISTS(SELECT * FROM members WHERE user_id = ? AND RSO_id = ?)', [req.user.id, req.params.rso_id], (err, back) => {
+    if (err) res.send(err)
+    res.send({ isMember: Object.values(back[0])[0] })
+  })
+}
