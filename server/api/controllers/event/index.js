@@ -179,6 +179,16 @@ exports.getUnapprovePublic = (req, res) => {
   })
 }
 
+exports.getUnapproveEvents = (req, res) => {
+  db.query(`SELECT E.name, E.id, E.category, E.description
+    FROM public_event AS PU, private_event AS PR, event AS E
+    WHERE (PU.approved_by IS NULL AND E.id = PU.event_id) OR 
+    (PR.approved_by IS NULL AND E.id = PR.event_id)`, (err, resPri) => {
+    if (err) res.send(err)
+    res.send(resPri)
+  })
+}
+
 exports.getEventById = (req, res) => {
   db.query('SELECT * FROM event WHERE id = ?', [req.params.event_id], (err, resEvent) => {
     if (err) res.send(err)

@@ -143,7 +143,7 @@ function Content(props) {
               </Card>
             </Grid>)
           }
-          <RSOInfo selectedValue={selectedValue} open={open} onClose={setInital} />
+          <RSOInfo selectedValue={selectedValue} open={open} onClose={setOpen} />
         </Grid >
       )
     }

@@ -27,6 +27,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors'
 import EventInfo from './EventInfo'
 import NewEvent from './NewEvent'
+import AppoveEvents from './ApproveEvents'
 
 const styles = theme => ({
   paper: {
@@ -75,6 +76,8 @@ function Content(props) {
   const [events, setEvents] = React.useState([])
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState('loading');
+  const [isAdmin, setIsAdmin] = React.useState(0)
+  const [isSuperAdmin, setIsSuperAdmin] = React.useState(0)
 
   const handleClickOpen = (value) => {
     setSelectedValue(value)
@@ -99,6 +102,21 @@ function Content(props) {
       .get('/event')
       .then(response => {
         setEvents(response.data)
+      })
+      .catch(error => {
+      })
+    axios
+      .get('/admin')
+      .then(response => {
+        setIsAdmin(response.data.isAdmin)
+      })
+      .catch(error => {
+      })
+
+    axios
+      .get('/superAdmin')
+      .then(response => {
+        setIsSuperAdmin(response.data.isAdmin)
       })
       .catch(error => {
       })
@@ -170,7 +188,10 @@ function Content(props) {
               Event Feed
             </Grid>
             <Grid item >
-              <NewEvent />
+              {(isSuperAdmin == 1) && <AppoveEvents />}
+            </Grid>
+            <Grid item >
+              {(isAdmin == 1) && <NewEvent />}
             </Grid>
             <Grid item>
               <Button

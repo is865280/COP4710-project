@@ -16,6 +16,9 @@ module.exports = () => {
     .get(loginRequired, controller.event.getUnapprovePrivate)
     .patch(loginRequired, controller.event.approvePrivate)
   router
+    .route('/unappoved')
+    .get(loginRequired, controller.event.getUnapproveEvents)
+  router
     .route('/info/:event_id')
     .get(controller.event.getEventById)
 

@@ -6,6 +6,7 @@ var rsoRoute = require('./rso')
 var eventRoute = require('./event')
 var commentsRouter = require('./comments')
 var adminRouter = require('./admin')
+var superAdminRouter = require('./superAdmin')
 
 module.exports = () => {
   router.use('/user', userRoute())
@@ -15,6 +16,6 @@ module.exports = () => {
   router.use('/event', eventRoute())
   router.use('/comments', commentsRouter())
   router.use('/admin', adminRouter())
-
+  router.use('/superAdmin', superAdminRouter())
   return router
 }

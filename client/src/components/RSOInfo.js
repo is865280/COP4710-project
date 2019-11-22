@@ -124,13 +124,9 @@ const RSOInfo = (props) => {
     }
 
     const handleClose = (e) => {
-        console.log('closing')
-        onClose();
+        onClose(false);
     };
 
-    // const handleListItemClick = value => {
-    //     onClose(value);
-    // };
     if (rso[0]) {
         return (
             <Dialog onClose={handleClose} aria-labelledby="dialog-title" open={open} >
