@@ -24,7 +24,8 @@ import CardActions from '@material-ui/core/CardActions'
 
 import { makeStyles } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors'
-import EventInfo from './EventInfo'
+import UniversityInfo from './UniversityInfo'
+import NewUniversity from './NewUniversity'
 
 const styles = theme => ({
   paper: {
@@ -142,7 +143,7 @@ function Content(props) {
               </Card>
             </Grid>)
           }
-          <EventInfo selectedValue={selectedValue} open={open} onClose={handleClose} />
+          <UniversityInfo selectedValue={selectedValue} open={open} onClose={handleClose} />
         </Grid >
       )
     }
@@ -167,78 +168,10 @@ function Content(props) {
             <Grid item xs>
               University Feed
             </Grid>
+            <Grid item >
+              <NewUniversity />
+            </Grid>
             <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.addUser}
-                onClick={handleClickPop}
-              >
-                Add
-              </Button>
-              <Popover
-                id={idPop}
-                open={openPop}
-                anchorEl={anchorEl}
-                onClose={handleClosePop}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-              >
-                <div className={classes.div1}>
-                  <Typography variant="h6" className={classes.typography}>Add New University</Typography>
-                  <TextField
-                    label="Name"
-                    type="text"
-                    margin="normal"
-                    onChange={e => { }}
-                  />
-                  <TextField
-                    label="Location"
-                    type="text"
-                    margin="normal"
-                    onChange={e => { }}
-                  />
-                  <TextField
-                    label="Description"
-                    type="text"
-                    margin="normal"
-                    onChange={e => { }}
-                  />
-                  <TextField
-                    label="Student Population"
-                    type="text"
-                    margin="normal"
-                    onChange={e => { }}
-                  />
-                  <TextField
-                    label="Phone"
-                    type="text"
-                    margin="normal"
-                    onChange={e => { }}
-                  />
-                  <TextField
-                    label="Email"
-                    type="text"
-                    margin="normal"
-                    onChange={e => { }}
-                  />
-                  <Button
-                    variant="contained"
-                    color="primary"
-                  //onClick={}
-                  >
-                    Add
-                </Button>
-                </div>
-
-              </Popover>
-
               <Button
                 variant="contained"
                 color="primary"

@@ -77,7 +77,7 @@ const RSOInfo = (props) => {
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
         }
         axios
-            .get(`/rso/info/${selectedValue}`)
+            .get(`/University/info/${selectedValue}`)
             .then(response => {
                 setRSO(response.data)
             })
@@ -106,19 +106,8 @@ const RSOInfo = (props) => {
         if (!isMem) {
             console.log('joining')
             axios
-                .post(`/rso/join/`, { rso_id: rso[0].id })
+                .post(`/university/join/`, { university_id: rso[0].id })
                 .then(response => {
-                    setIsMem(true)
-                    getRSO()
-                })
-                .catch(error => {
-                })
-        } else {
-            axios
-                .delete(`/rso/join/`, { data: { rso_id: rso[0].id } })
-                .then(response => {
-                    setIsMem(false)
-                    getRSO()
                 })
                 .catch(error => {
                 })
@@ -148,12 +137,6 @@ const RSOInfo = (props) => {
                     </Box>
                 </div>
                 <List>
-                    <ListItem  >
-                        <ListItemText primary={'members: ' + rso[0].num_members} />
-                    </ListItem>
-                    <ListItem  >
-                        <ListItemText primary={(rso[0].active) ? 'Active' : 'Inactive'} />
-                    </ListItem>
                     <ListItem  >
                         <ListItemText primary={rso[0].description} />
                     </ListItem>

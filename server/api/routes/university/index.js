@@ -10,6 +10,8 @@ module.exports = () => {
   router
     .route('/join')
     .patch(controller.university.join)
+  router.route('/info/:university_id')
+    .get(controller.university.getById)
 
   return router
 }

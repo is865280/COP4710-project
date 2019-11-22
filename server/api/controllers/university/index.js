@@ -44,4 +44,11 @@ exports.join = (req, res) => {
     if (err) res.send(err)
     res.send(back)
   })
-} 
+}
+
+exports.getById = (req, res) => {
+  db.query('SELECT * FROM university WHERE id = ?', [req.params.university_id], (err, resRSO) => {
+    if (err) res.send(err)
+    res.send(resRSO)
+  })
+}
