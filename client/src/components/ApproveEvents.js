@@ -32,7 +32,8 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-export default function SimplePopover() {
+export default function AppoveEvents(props) {
+    const { getEvents } = props;
     const classes = useStyles();
     const [inital, setInital] = React.useState(0)
     const [events, setEvents] = React.useState([])
@@ -40,11 +41,11 @@ export default function SimplePopover() {
 
 
     if (inital == 0) {
-        getEvents()
+        getUnappovedEvents()
         setInital(1)
     }
 
-    function getEvents() {
+    function getUnappovedEvents() {
         const token = JWT.get()
         if (token) {
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
@@ -67,19 +68,24 @@ export default function SimplePopover() {
             axios
                 .patch(`/event/${category}`, { event_id: id })
                 .then(response => {
-                    console.log(response)
+                    getUnappovedEvents()
+                    getEvents()
                 })
                 .catch(error => {
                 })
         }
 
     }
+    function handleOpen() {
+        getUnappovedEvents()
+        setOpen(true)
+    }
 
 
     return (
         <div>
             <Dialog onClose={e => { setOpen(false) }} aria-labelledby="dialog-title" open={open}>
-                <DialogTitle id="dialog-title">{'Unappoved Events'}</DialogTitle>
+                <DialogTitle id="dialog-title">{(events.length) ? 'Unappoved Events' : ' No unappoved events'}</DialogTitle>
                 <div className={classes.root}>
                     <GridList cellHeight={"auto"} spacing={0} className={classes.gridList}>
                         {events.map(tile => (
@@ -108,7 +114,7 @@ export default function SimplePopover() {
             <Button
                 color="primary"
                 variant="contained"
-                onClick={e => { setOpen(true) }}>
+                onClick={e => { handleOpen() }}>
                 Appove Events
             </Button>
         </div >

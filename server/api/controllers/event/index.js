@@ -15,72 +15,74 @@ exports.addNew = (req, res) => {
       if (!resAdmin[0]) {
         res.send({ message: 'user is not an admin' })
       }
-
-      var loc_id
-      if (!loc_id) {
-        db.query('INSERT INTO location SET ?', newLocation, (err, resLoc) => {
-          if (err) res.send(err)
-          loc_id = resLoc.insertId
-          doNext()
-        })
-      } else
-        firstDo = async () => {
-          loc_id = req.body.location_id
-          doNext()
-        }
-
-      var doNext = () => {
-        var newEvent = {
-          name: req.body.name,
-          location_id: loc_id,
-          time: req.body.time,
-          date: req.body.date,
-          category: req.body.category,
-          description: req.body.description,
-          contact_phone: req.body.contact_phone,
-          contact_email: req.body.contact_email
-        }
-        db.query('INSERT INTO event SET ?', newEvent, (err, resEvent) => {
-          if (err) res.send(err)
-
-          switch (req.body.category) {
-            case 'rso':
-              var table = 'RSO_event'
-              var newEventInfo = {
-                RSO_id: req.body.rso_id,
-                event_id: resEvent.insertId
-              }
-              break
-            case 'public':
-              var table = 'public_event'
-              var newEventInfo = {
-                created_by: resAdmin[0].id,
-                event_id: resEvent.insertId
-              }
-              break
-            case 'private':
-              var table = 'private_event'
-              var newEventInfo = {
-                created_by: resAdmin[0].id,
-                event_id: resEvent.insertId,
-                university_id: req.body.university_id
-              }
-              break
-            default:
-              break
+      db.query('SELECT university_id FROM users WHERE id = ?', req.user.id, (err, resUni) => {
+        if (err) res.send(err)
+        console.log(resUni)
+        var loc_id
+        if (!loc_id) {
+          db.query('INSERT INTO location SET ?', newLocation, (err, resLoc) => {
+            if (err) res.send(err)
+            loc_id = resLoc.insertId
+            doNext()
+          })
+        } else
+          firstDo = async () => {
+            loc_id = req.body.location_id
+            doNext()
           }
 
-          if (!table) res.send({ message: 'Please specify event catagory' })
-          db.query(
-            'INSERT INTO ?? SET ?',
-            [table, newEventInfo],
-            (err, resEI) => {
-              if (err) res.send(err)
-              res.send(resEI)
+        var doNext = () => {
+          var newEvent = {
+            name: req.body.name,
+            location_id: loc_id,
+            time: req.body.time,
+            date: req.body.date,
+            category: req.body.category,
+            description: req.body.description,
+            contact_phone: req.body.contact_phone,
+            contact_email: req.body.contact_email
+          }
+          db.query('INSERT INTO event SET ?', newEvent, (err, resEvent) => {
+            if (err) res.send(err)
+
+            switch (req.body.category) {
+              case 'rso':
+                var table = 'RSO_event'
+                var newEventInfo = {
+                  RSO_id: req.body.rso_id,
+                  event_id: resEvent.insertId
+                }
+                break
+              case 'public':
+                var table = 'public_event'
+                var newEventInfo = {
+                  created_by: resAdmin[0].id,
+                  event_id: resEvent.insertId
+                }
+                break
+              case 'private':
+                var table = 'private_event'
+                var newEventInfo = {
+                  created_by: resAdmin[0].id,
+                  event_id: resEvent.insertId,
+                  university_id: resUni[0].university_id
+                }
+                break
+              default:
+                break
             }
-          )
-        })
-      }
+            if (!table) res.send({ message: 'Please specify event catagory' })
+            db.query(
+              'INSERT INTO ?? SET ?',
+              [table, newEventInfo],
+              (err, resEI) => {
+                if (err) res.send(err)
+                res.send(resEI)
+              }
+            )
+          })
+        }
+      })
     }
   )
 }
@@ -181,9 +183,12 @@ exports.getUnapprovePublic = (req, res) => {
 
 exports.getUnapproveEvents = (req, res) => {
   db.query(`SELECT E.name, E.id, E.category, E.description
-    FROM public_event AS PU, private_event AS PR, event AS E
-    WHERE (PU.approved_by IS NULL AND E.id = PU.event_id) OR 
-    (PR.approved_by IS NULL AND E.id = PR.event_id)`, (err, resPri) => {
+  FROM public_event AS P, event AS E
+  WHERE P.approved_by IS NULL AND E.id = P.event_id
+  UNION    
+  SELECT E.name, E.id, E.category, E.description
+  FROM private_event AS P, event AS E
+  WHERE P.approved_by IS NULL AND E.id = P.event_id`, (err, resPri) => {
     if (err) res.send(err)
     res.send(resPri)
   })

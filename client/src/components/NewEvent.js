@@ -57,6 +57,7 @@ export default function SimplePopover() {
     const [name, setName] = React.useState('')
     const [time, setTime] = React.useState('')
     const [date, setDate] = React.useState('')
+    const [university_id, setUniversity_id] = React.useState('')
     const [dateErr, setDateErr] = React.useState(0)
     const [description, setDescription] = React.useState('')
     const [inital, setInital] = React.useState(0)
@@ -102,6 +103,7 @@ export default function SimplePopover() {
                 date: date,
                 category: category,
                 description: description,
+                university_id: university_id,
                 rso_id: RSO,
                 location: {
                     name: "home",

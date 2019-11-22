@@ -2,10 +2,8 @@ const db = require('../../../api/services/dbConnectionService')
 
 
 exports.isSuperAdmin = (req, res) => {
-  console.log(req.body)
   db.query('SELECT EXISTS(SELECT * FROM super_admin WHERE user_id = ?)', req.user.id, (err, back) => {
     if (err) res.send(err)
-    console.log(req.body)
     res.send({ isAdmin: Object.values(back[0])[0] })
   })
 }

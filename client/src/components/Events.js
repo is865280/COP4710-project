@@ -188,7 +188,7 @@ function Content(props) {
               Event Feed
             </Grid>
             <Grid item >
-              {(isSuperAdmin == 1) && <AppoveEvents />}
+              {(isSuperAdmin == 1) && <AppoveEvents getEvents={getEvents} />}
             </Grid>
             <Grid item >
               {(isAdmin == 1) && <NewEvent />}

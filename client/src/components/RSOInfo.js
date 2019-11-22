@@ -55,7 +55,7 @@ const useStyles = makeStyles(theme => ({
 
 const RSOInfo = (props) => {
     const classes = useStyles();
-    const { onClose, selectedValue, open } = props;
+    const { onClose, selectedValue, open, getEvents } = props;
 
     const [rso, setRSO] = React.useState([])
     const [isMem, setIsMem] = React.useState(0)
@@ -127,6 +127,7 @@ const RSOInfo = (props) => {
 
     const handleClose = (e) => {
         onClose(false);
+        getEvents()
     };
 
     if (rso[0]) {

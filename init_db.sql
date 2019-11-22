@@ -147,7 +147,12 @@ delimiter |
 CREATE TRIGGER isActive AFTER INSERT ON members
   FOR EACH ROW
   BEGIN
-    UPDATE RSO SET active = IF(active > 4,true,false) WHERE id = NEW.RSO_id;
+    UPDATE RSO SET active = IF(num_members > 4,true,false) WHERE id = NEW.RSO_id;
+  END;
+CREATE TRIGGER isInactive AFTER DELETE ON members
+  FOR EACH ROW
+  BEGIN
+    UPDATE RSO SET active = IF(num_members < 4,false,true) WHERE id = OLD.RSO_id;
   END;
 |
 

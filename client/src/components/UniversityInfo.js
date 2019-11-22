@@ -106,7 +106,7 @@ const RSOInfo = (props) => {
         if (!isMem) {
             console.log('joining')
             axios
-                .post(`/university/join/`, { university_id: rso[0].id })
+                .patch(`/university/join/`, { university_id: rso[0].id })
                 .then(response => {
                 })
                 .catch(error => {
