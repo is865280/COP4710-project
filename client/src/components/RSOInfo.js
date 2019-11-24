@@ -133,7 +133,7 @@ const RSOInfo = (props) => {
     if (rso[0]) {
         return (
             <Dialog onClose={handleClose} aria-labelledby="dialog-title" open={open} >
-                <div style={{ width: 500 }}>
+                <div style={{ width: '100%', minWidth: 500 }}>
                     <Box display="flex" p={1}>
                         <Box p={1} flexGrow={1} >
                             <Typography>{rso[0].name}</Typography>
@@ -156,7 +156,11 @@ const RSOInfo = (props) => {
                         <ListItemText primary={(rso[0].active) ? 'Active' : 'Inactive'} />
                     </ListItem>
                     <ListItem  >
-                        <ListItemText primary={rso[0].description} />
+                        {/* <ListItemText primary={rso[0].description} /> */}
+                        <div className="container-fluid pages_container">
+                            <p dangerouslySetInnerHTML={{ __html: rso[0].description }} />
+                        </div>
+
                     </ListItem>
                 </List>
             </Dialog >
